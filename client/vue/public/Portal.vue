@@ -1,5 +1,20 @@
 <template>
     <div>
         <h3>Portal.vue</h3>
+        <portal-header></portal-header>
+        <router-view></router-view>
+        <portal-footer></portal-footer>
     </div>
 </template>
+
+<script>
+    import header from './PortalHeader.vue';
+    import footer from './PortalFooter.vue';
+
+    export default {
+        components: {
+            'portal-header': header,
+            'portal-footer': footer
+        }
+    };
+</script>

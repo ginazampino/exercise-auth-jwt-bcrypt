@@ -13,7 +13,19 @@ export default new Router({
         {
             path: '/portal',
             component: require('./vue/public/Portal.vue').default,
-            beforeEnter: guard
+            beforeEnter: guard,
+            children: [
+                {
+                    path: '/login',
+                    component: require('./vue/public/PortalLoginForm.vue').default,
+                    name: 'login'
+                },
+                {
+                    path: '/register',
+                    component: require('./vue/public/PortalRegistrationForm.vue').default,
+                    name: 'register'
+                }
+            ]
         },
         {
             path: '*',
