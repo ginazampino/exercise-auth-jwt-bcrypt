@@ -1,5 +1,8 @@
 <template>
-    <main>
-        Login form
-    </main>
+    <form>
+    </form>
 </template>
+
+<script>
+
+</script>

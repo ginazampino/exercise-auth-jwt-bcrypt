@@ -2,7 +2,9 @@
     <div>
         <h3>Portal.vue</h3>
         <portal-header></portal-header>
-        <router-view></router-view>
+        <main>
+            <router-view></router-view>
+        </main>
         <portal-footer></portal-footer>
     </div>
 </template>
