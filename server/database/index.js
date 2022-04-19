@@ -16,4 +16,6 @@ const knex = Knex({
 
 Model.knex(knex);
 
-module.exports = knex;
+module.exports = {
+    knex
+};

@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h3>Portal.vue</h3>
         <portal-header></portal-header>
         <main>
             <router-view></router-view>
