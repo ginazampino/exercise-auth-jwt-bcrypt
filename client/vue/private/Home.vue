@@ -2,10 +2,12 @@
     <div>
         Homepage
         <form @submit.prevent="handleLogout">
-            <button class="flat yellow" type="submit">
-                Sign out <i class="fas fa-sign-out-alt right"></i>
+            <button type="submit">
+                Sign out
             </button>
         </form>
+        <router-link to="/test">Code</router-link>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -13,6 +15,12 @@
     import axios from 'axios';
 
     export default {
+        data() {
+            return {
+                friendCode: 'No data'
+            }
+        },
+
         methods: {
             async handleLogout() {
                 await axios.post('/api/logout')

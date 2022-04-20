@@ -2,49 +2,26 @@ const express = require('express');
 const router = express.Router();
 
 const {
-    // Authenticate:
-    createHash,
     createToken,
     requireSession,
-
-    // Find:
-    findUserByEmail,
-    findUserByUsername,
-    findUserByCode,
-    findExistingUser,
-    findUserById,
-
-    // Validate:
-    validateForm,
-    validatePassword,
     validateSession,
-    validateNewPassword,
-
-    // Get:
-    getUserPassword,
     getPublicProfile,
-    getCurrentDate,
     getPrivateProfile,
     getUserCurrency,
     getUserRole,
     getSessionId,
-
-    // Do:
     doLoginUser,
     doRegisterUser,
-    doBcryptCompare,
-
-    // Update:
     updateUser
 } = require('../logic');
 
-require("dotenv").config();
+require('dotenv').config();
 
 /* ========================================
 
     Retrieve token data from cookies. */
-
-    router.get("/get/cookie", async (req, res) => {
+    
+    router.get('/get/cookie', async (req, res) => {
         const token = req.cookies.token;
 
         if (token) {
@@ -58,6 +35,10 @@ require("dotenv").config();
         } else {
             res.json(null);
         };
+    });
+
+    router.get('/code', (req, res) => {
+        res.send('A code');
     });
 
 /* ===================================== 

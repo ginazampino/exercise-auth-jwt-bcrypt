@@ -19,7 +19,7 @@ const axios = require('axios');
     Redirect to login portal if no session exists. */
 
     async function guardBehindSession(to, from, next) {
-        const session = await axios.get('api/get/cookie');
+        const session = await axios.get('/api/get/cookie');
 
         if (session.data != null) {
             next();
