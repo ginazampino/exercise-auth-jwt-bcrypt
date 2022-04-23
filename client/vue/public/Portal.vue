@@ -1,10 +1,14 @@
 <template>
-    <div>
-        <portal-header></portal-header>
-        <main>
-            <router-view></router-view>
-        </main>
-        <portal-footer></portal-footer>
+    <div id="portal">
+        <div class="container">
+            <div class="content">
+                <portal-header></portal-header>
+                <main>
+                    <router-view></router-view>
+                </main>
+                <portal-footer></portal-footer>
+            </div>
+        </div>
     </div>
 </template>
 

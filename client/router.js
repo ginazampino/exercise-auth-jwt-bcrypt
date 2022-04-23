@@ -37,13 +37,9 @@ export default new Router({
             beforeEnter: guardBehindSession,
             children: [
                 {
-                    path: '/test',
-                    component: require('./vue/private/test/Test.vue').default,
+                    path: '/code',
+                    component: require('./vue/private/app/FriendCode.vue').default,
                     beforeEnter: guardBehindSession
-                },
-                {
-                    path: '/test/two',
-                    component: require('./vue/private/two/Two.vue').default
                 }
             ]
         },

@@ -1,4 +1,3 @@
-const moment = require('moment');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { knex } = require('../database/index.js');
@@ -92,12 +91,8 @@ const User = require('../database/models/User.js');
 
     GET */
 
-    function getCurrentDate() {
-        return moment().utc().format('YYYY-MM-DD');
-    };
-
     function getCurrentTime() {
-        return moment().utc().format('YYYY-MM-DD HH:MM:SS');
+        return new Date();
     };
 
     function getSessionId(session) {
@@ -429,7 +424,6 @@ module.exports = {
     // Get:
     getUserPassword,
     getPublicProfile,
-    getCurrentDate,
     getCurrentTime,
     getPrivateProfile,
     getUserCurrency,

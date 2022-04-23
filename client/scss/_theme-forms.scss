@@ -1,0 +1,42 @@
+::placeholder {
+    color: $color-white-xxdk;
+    font-weight: 300;
+    opacity: 1;
+}
+
+label {
+    display: block;
+    font-family: $family-body;
+    font-size: $size-md;
+    font-weight: 700;
+    margin-bottom: rem(6px);
+    padding-left: rem(4px);
+    width: 100%;
+}
+
+input, textarea {
+    @include transform();
+    border-radius: rem(8px);
+    display: block;
+    font-family: $family-body;
+    font-size: $size-md;
+    padding: rem(6px) rem(18px);
+    width: 100%;
+
+    &:hover, &:active, &:focus {
+        @include scale();
+    }
+}
+
+input, textarea {
+    &.white {
+        background-color: rgba($color-white-dk, .15);
+        border: rem(1px) solid $color-white-dk;
+		border-bottom: rem(6px) solid $color-white-dk;
+    }
+
+    &.yellow {
+        background-color: $color-white;
+        border-bottom: rem(6px) solid $color-yellow-dk;
+    }
+}

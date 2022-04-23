@@ -1,12 +1,13 @@
 <template>
     <main>
-        <form @submit.prevent="handleSubmit">
-            <input v-model="registerUsername" name="username" type="text" placeholder="Username" required />
-            <input v-model="registerEmail" name="email" type="email" placeholder="Email address" required />
-            <input v-model="registerPassword" name="password" type="password" placeholder="Password" required />
-            <input v-model="registerConfirm" name="confirm" type="password" placeholder="Confirm password" required />
-            <input v-model="registerCode" name="code" type="text" placeholder="Friend code" required />
-            <button type="submit">
+        <form class="basic" @submit.prevent="handleSubmit">
+            <div id="invalidAttempt" class="form-error hidden">Please try again.</div>
+            <input class="yellow" v-model="registerUsername" name="username" type="text" placeholder="Username" required />
+            <input class="yellow" v-model="registerEmail" name="email" type="email" placeholder="Email address" required />
+            <input class="yellow" v-model="registerPassword" name="password" type="password" placeholder="Password" required />
+            <input class="yellow" v-model="registerConfirm" name="confirm" type="password" placeholder="Confirm password" required />
+            <input class="yellow" v-model="registerCode" name="code" type="text" placeholder="Friend code" required />
+            <button class="pop red" type="submit">
                 Sign up
             </button>
         </form>
@@ -48,6 +49,7 @@
                         window.location.assign('/register');
                     };
                 }).catch((error) => {
+                    document.getElementById('invalidAttempt').classList.remove('hidden');
                     throw error;
                 });
             }

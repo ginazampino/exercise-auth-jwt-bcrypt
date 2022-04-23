@@ -1,0 +1,19 @@
+*::-webkit-scrollbar {
+    width: rem(6px);
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: rem(5px);
+}
+
+.scrollbar-blue {
+    @include theme-scrollbar($color-blue, $color-blue-dk);
+}
+
+.scrollbar-white {
+    @include theme-scrollbar($color-white, $color-white-dk);
+}
+
+.scrollbar-yellow {
+    @include theme-scrollbar($color-yellow, $color-yellow-dk);
+}

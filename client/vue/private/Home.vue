@@ -6,7 +6,6 @@
                 Sign out
             </button>
         </form>
-        <router-link to="/test">Code</router-link>
         <router-view></router-view>
     </div>
 </template>

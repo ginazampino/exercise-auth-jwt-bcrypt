@@ -1,0 +1,40 @@
+body {
+    color: $color-black;
+    font-family: $family-body;
+    font-size: $size-sm;
+    overflow: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $family-heading;
+}
+
+h1 {
+    font-size: $size-h1;
+}
+
+h2 {
+    font-size: $size-h2;
+}
+
+p {
+    font-family: $family-body;
+}
+
+img {
+    user-select: none;
+}
+
+a {
+    text-decoration: underline;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+section {
+    &.center {
+        @include flex(center, center, row);
+    }
+}

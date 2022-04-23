@@ -37,21 +37,17 @@ require('dotenv').config();
         };
     });
 
-    router.get('/code', (req, res) => {
-        res.send('A code');
-    });
-
 /* ===================================== 
 
     Register a new user account into the database. */
 
-    router.post("/register", async (req, res) => {
+    router.post('/register', async (req, res) => {
         const result = await doRegisterUser(req.body);
 
         if (result) {
-            res.status(201).send("Successfully inserted a new user row into the database.");
+            res.status(201).send('Successfully inserted a new user row into the database.');
         } else {
-            res.status(400).send("Unable to insert a new user row into the database.");
+            res.status(400).send('Unable to insert a new user row into the database.');
         };
     });
 
@@ -59,19 +55,19 @@ require('dotenv').config();
 
     Create a new login session using JWT. */
 
-    router.post("/login", async (req, res) => {
+    router.post('/login', async (req, res) => {
         const result = await doLoginUser(req.body.email, req.body.password);
         
         if (result) {
             const token = createToken(result);
 
-            res.cookie("token", token, {
+            res.cookie('token', token, {
                 httpOnly: true
             });
 
-            res.status(201).send("A new cookie has been created.");
+            res.status(201).send('A new cookie has been created.');
         } else {
-            res.status(401).send("Invalid login credentials submitted.");
+            res.status(401).send('Invalid login credentials submitted.');
         };
     });
 
@@ -79,15 +75,15 @@ require('dotenv').config();
 
     End a current JWT session. */
 
-    router.post("/logout", async (req, res) => {
-        res.status(202).clearCookie("token").send("Cleared the browser's session cookie.");
+    router.post('/logout', async (req, res) => {
+        res.status(202).clearCookie('token').send("Cleared the browser's session cookie.");
     });
 
 /* ========================================
 
     Get a user's account role. */
 
-    router.get("/get/user/:id/role", requireSession, async (req, res) => {
+    router.get('/get/user/:id/role', requireSession, async (req, res) => {
         const session = await validateSession(req.cookies.token);
         const id = parseInt(req.params.id);
 
@@ -101,7 +97,7 @@ require('dotenv').config();
 
             res.json(userRole);
         } else {
-            res.status(400).send("Server could not find an active session.");
+            res.status(400).send('Server could not find an active session.');
         };
     });
 
@@ -109,7 +105,7 @@ require('dotenv').config();
 
     Get a user's currency table. */
 
-    router.get("/get/user/:id/currency", requireSession, async (req, res) => {
+    router.get('/get/user/:id/currency', requireSession, async (req, res) => {
         const session = await validateSession(req.cookies.token);
         const id = parseInt(req.params.id);
 
@@ -123,7 +119,7 @@ require('dotenv').config();
                 
             res.json(currency);
         } else {
-            res.status(400).send("Server could not find an active session.");
+            res.status(400).send('Server could not find an active session.');
         };
     });
 
@@ -131,7 +127,7 @@ require('dotenv').config();
 
     Get a user's public profile data. */
 
-    router.get("/get/user/:id/public", requireSession, async (req, res) => {
+    router.get('/get/user/:id/public', requireSession, async (req, res) => {
         const session = await validateSession(req.cookies.token);
         const sessionId = session.user;
 
@@ -143,7 +139,7 @@ require('dotenv').config();
                     throw error;
                 });
         } else {
-            res.status(400).send("Server could not find an active session.");
+            res.status(400).send('Server could not find an active session.');
         };
     });
 
@@ -151,7 +147,7 @@ require('dotenv').config();
 
     Get a user's public private data. */
 
-    router.get("/get/user/:id/private", requireSession, async (req, res) => {
+    router.get('/get/user/:id/private', requireSession, async (req, res) => {
         const session = await validateSession(req.cookies.token);
         const sessionId = session.user;
         const paramsId = req.params.id;
@@ -164,7 +160,7 @@ require('dotenv').config();
                     throw error;
                 });
         } else {
-            res.status(400).send("Server could not find an active session.");
+            res.status(400).send('Server could not find an active session.');
         };
     });
 
@@ -172,7 +168,7 @@ require('dotenv').config();
 
     Update a user row with new data. */
 
-    router.post("/update/user/:id", requireSession, async (req, res) => {
+    router.post('/update/user/:id', requireSession, async (req, res) => {
         const sessionId = getSessionId(req.cookies.token);
         const requestId = parseInt(req.params.id);
         
@@ -183,7 +179,7 @@ require('dotenv').config();
                 throw error;
             });
         } else {
-            res.status(401).send("Server could not find a valid session.");
+            res.status(401).send('Server could not find a valid session.');
         };
         
     });

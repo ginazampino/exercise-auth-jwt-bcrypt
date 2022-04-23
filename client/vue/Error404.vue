@@ -1,5 +1,9 @@
 <template>
     <div id="error">
-        404 Not Found-it
+        <img src="../img/spray.gif">
+        <h1>
+            404 Not Found-it
+        </h1>
+        <router-link to="/">Go back</router-link>
     </div>
 </template>

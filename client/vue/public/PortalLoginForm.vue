@@ -1,9 +1,10 @@
 <template>
     <main>
-        <form @submit.prevent="handleSubmit">
-            <input v-model="loginEmail" name="email" type="email" placeholder="Email address" required />
-            <input v-model="loginPassword" name="password" type="password" placeholder="Password" required />
-            <button type="submit">
+        <form class="basic" @submit.prevent="handleSubmit">
+            <div id="invalidAttempt" class="form-error hidden">Invalid email address and password.</div>
+            <input class="yellow" v-model="loginEmail" name="email" type="email" placeholder="Email address" required />
+            <input class="yellow" v-model="loginPassword" name="password" type="password" placeholder="Password" required />
+            <button class="pop red" type="submit">
                 Sign in
             </button>
         </form>
@@ -39,8 +40,8 @@
                         window.location.assign('/login');
                     };
                 }).catch((error) => {
+                    document.getElementById('invalidAttempt').classList.remove('hidden');
                     throw error;
-                    // document.getElementById('invalidAttempt').classList.remove('hide');
                 }); 
             }
         }

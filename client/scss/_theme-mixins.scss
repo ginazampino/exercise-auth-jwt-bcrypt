@@ -1,0 +1,35 @@
+@mixin transform() {
+    transition: transform .05s ease-in-out;
+}
+
+@mixin scale() {
+    transform: scale(105%);
+}
+
+@mixin border-left($color) {
+    border-left: rem(6px) solid $color;
+}
+
+@mixin border-right($color) {
+    border-right: rem(6px) solid $color;
+}
+
+@mixin theme-button($background-color, $accent-color) {
+    background-color: $background-color;
+    border-bottom: rem(5px) solid $accent-color;
+    text-shadow: 0px rem(2px) 0px $accent-color;
+
+    i {
+        color: $accent-color;
+    }
+}
+
+@mixin theme-scrollbar($scrollbar, $thumb) {
+    &::-webkit-scrollbar {
+        background-color: $scrollbar;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $thumb;
+    }
+}

@@ -38,9 +38,9 @@ CREATE TABLE users (
     inviteCode          INT NULL,
     friendCode          INT NULL,
 
-    createdAt           TIMESTAMP NULL,
-    updatedAt           TIMESTAMP NULL,
-    visitedAt           TIMESTAMP NULL
+    createdAt           DATETIME NULL,
+    updatedAt           DATETIME NULL,
+    visitedAt           TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 ALTER TABLE users
@@ -51,11 +51,11 @@ VALUES  ('Adversary'),  -- System
         ('Mayor'),      -- Admin
         ('Ranger'),     -- Moderator
         ('Trainer'),    -- Member
-        ('Retiree'),    -- Deactivated
+        ('Deleted'),    -- Deactivated
         ('Banned');
 
 INSERT INTO users (roleId, userEmail, userName, userPassword, friendCode)
-VALUES (4, 'domain@email.com', 'Member', 'password', 111222);
+VALUES (4, 'domain@email.com', 'Domain', 'password', 111222);
 
 CREATE TABLE petSpecies (
     id                  INT PRIMARY KEY NOT NULL AUTO_INCREMENT,

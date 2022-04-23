@@ -1,0 +1,96 @@
+#portal {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 100%;
+    width: 100%;
+
+    @media (min-width: $screen-sm) {
+        grid-template-columns: 1fr auto 1fr;
+    }
+}
+
+#portal > .container {
+    @include flex(center, center, column);
+    grid-column: 1;
+    height: 100%;
+    width: 100%;
+
+    @media (min-width: $screen-sm) {
+        grid-column: 2;
+    }
+}
+
+#portal .content {
+    @include flex(center, center, column);
+    grid-template-rows: auto 1fr auto;
+    height: 100%;
+    padding: rem(20px);
+    text-align: center;
+
+    @media (min-width: $screen-sm) {
+        grid-column: 2;
+        width: rem(400px);
+    }
+}
+
+#portal p {
+    font-size: $size-sm;
+    margin: 0;
+}
+
+#portal header {
+    padding: rem(20px) rem(40px);
+
+    img {
+        @include transform();
+
+        &:hover {
+            transform: scale(105%);
+        }
+    }
+}
+
+#portal main {
+    @include flex(center, flex-start, column);
+    flex: 1 1 auto;
+    width: 100%;
+}
+
+#portal form {
+    margin-top: rem(18px);
+}
+
+#portal input + input {
+    margin-top: rem(12px);
+}
+
+#portal button {
+    margin-top: rem(30px);
+    margin-bottom: rem(20px);
+}
+
+#portal aside {
+    margin-top: rem(10px);
+
+    a {
+        display: block;
+    }
+}
+
+#portal footer {
+    margin-top: rem(40px);
+
+    p {
+        font-size: $size-xsm;
+    }
+}
+
+#portal .content {
+    background-color: $color-yellow;
+    color: $color-black;
+
+    @media (min-width: $screen-sm) {
+        @include border-left($color-yellow-dk);
+        @include border-right($color-yellow-dk);
+    }
+}
