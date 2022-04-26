@@ -1,5 +1,5 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { knex } = require('../database/index.js');
 const User = require('../database/models/User.js');
 
@@ -12,7 +12,7 @@ const User = require('../database/models/User.js');
     };
 
     function createToken(id) {
-        return result = jwt.sign({ user: id }, process.env.JWT_SECRET, { expiresIn: "1hr" });
+        return result = jwt.sign({ user: id }, process.env.JWT_SECRET, { expiresIn: '1hr' });
     };
 
     async function requireSession(req, res, next) {
@@ -52,25 +52,25 @@ const User = require('../database/models/User.js');
                     const isNotEmpty = (password.trim() != '') && (confirm.trim() != '');
     
                     if (isNotEmpty) {
-                        console.log('[DEBUG] validateNewPassword() reported a valid password.');
+                        // console.log('[DEBUG] validateNewPassword() reported a valid password.');
                         return true;
                     } else {
-                        console.log('[DEBUG] validateNewPassword() reported passwords are empty strings.');
+                        // console.log('[DEBUG] validateNewPassword() reported passwords are empty strings.');
                         return false;
                     };
     
                 } else {
-                    console.log("[DEBUG] validateNewPassword() reported passwords aren't strings.");
+                    // console.log("[DEBUG] validateNewPassword() reported passwords aren't strings.");
                     return false;
                 };
     
             } else {
-                console.log("[DEBUG] validateNewPassword() reported passwords don't match.");
+                // console.log("[DEBUG] validateNewPassword() reported passwords don't match.");
                 return false;
             };
             
         } else {
-            console.log('[DEBUG] validateNewPassword() reported a missing password.');
+            // console.log('[DEBUG] validateNewPassword() reported a missing password.');
             return false;
         };
     };
