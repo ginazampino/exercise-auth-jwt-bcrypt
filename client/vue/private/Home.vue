@@ -2,7 +2,7 @@
     <div>
         Homepage
         <form @submit.prevent="handleLogout">
-            <button type="submit">
+            <button type="submit" aria-label="Sign out of Petz Hub">
                 Sign out
             </button>
         </form>
@@ -14,12 +14,6 @@
     import axios from 'axios';
 
     export default {
-        data() {
-            return {
-                friendCode: 'No data'
-            }
-        },
-
         methods: {
             async handleLogout() {
                 await axios.post('/api/logout')

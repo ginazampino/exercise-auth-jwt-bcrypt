@@ -2,19 +2,21 @@
     <main>
         <form class="basic" @submit.prevent="handleSubmit">
             <div id="invalidAttempt" class="form-error hidden">Please try again.</div>
-            <input class="yellow" v-model="registerUsername" name="username" type="text" placeholder="Username" required />
-            <input class="yellow" v-model="registerEmail" name="email" type="email" placeholder="Email address" required />
-            <input class="yellow" v-model="registerPassword" name="password" type="password" placeholder="Password" required />
-            <input class="yellow" v-model="registerConfirm" name="confirm" type="password" placeholder="Confirm password" required />
-            <input class="yellow" v-model="registerCode" name="code" type="text" placeholder="Friend code" required />
-            <button class="pop red" type="submit">
+            <input class="yellow" v-model="registerUsername" name="username" type="text" aria-label="Username" placeholder="Username" required />
+            <input class="yellow" v-model="registerEmail" name="email" type="email" aria-label="Email address" placeholder="Email address" required />
+            <input class="yellow" v-model="registerPassword" name="password" type="password" aria-label="Password" placeholder="Password" required />
+            <input class="yellow" v-model="registerConfirm" name="confirm" type="password" aria-label="Confirm password" placeholder="Confirm password" required />
+            <input class="yellow" v-model="registerCode" name="code" type="text" aria-label="Friend code" placeholder="Friend code" required />
+            <button class="pop red" type="submit" aria-label="Register your new Petz Hub account">
                 Sign up
             </button>
         </form>
         <aside>
             <p>
                 Already have an account?
-                <a href="/login">Log in now</a>
+                <a href="/login" aria-label="Go to the Petz Hub sign-in page">
+                    Sign in now
+                </a>
             </p>
         </aside>
     </main>

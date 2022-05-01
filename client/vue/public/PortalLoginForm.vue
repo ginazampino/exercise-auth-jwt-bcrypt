@@ -2,16 +2,18 @@
     <main>
         <form class="basic" @submit.prevent="handleSubmit">
             <div id="invalidAttempt" class="form-error hidden">Invalid email address and password.</div>
-            <input class="yellow" v-model="loginEmail" name="email" type="email" placeholder="Email address" required />
-            <input class="yellow" v-model="loginPassword" name="password" type="password" placeholder="Password" required />
-            <button class="pop red" type="submit">
+            <input class="yellow" v-model="loginEmail" name="email" type="email" aria-label="Email address" placeholder="Email address" required />
+            <input class="yellow" v-model="loginPassword" name="password" type="password" aria-label="Password" placeholder="Password" required />
+            <button class="pop red" type="submit" aria-label="Sign in to your Petz Hub account">
                 Sign in
             </button>
         </form>
         <aside>
             <p>
                 Don't have an account?
-                <a href="/register">Register now</a>
+                <a href="/register" aria-label="Go to the account registration page">
+                    Register now
+                </a>
             </p>
         </aside>
     </main>
