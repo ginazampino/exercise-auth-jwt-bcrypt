@@ -3,9 +3,7 @@
         <div class="container">
             <div class="content">
                 <portal-header></portal-header>
-                <main>
-                    <router-view></router-view>
-                </main>
+                <router-view></router-view>
                 <portal-footer></portal-footer>
             </div>
         </div>
