@@ -36,7 +36,7 @@ CREATE TABLE users (
     skillPotions        INT DEFAULT 0 NOT NULL,
 
     inviteCode          INT NULL,
-    friendCode          INT NULL,
+    friendCode          INT UNIQUE NULL,
 
     createdAt           DATETIME NULL,
     updatedAt           DATETIME NULL,
