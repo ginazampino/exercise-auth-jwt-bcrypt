@@ -3,7 +3,12 @@
 }
 
 #wrapper {
+    @include theme-scrollbar($color-yellow, $color-yellow-dk);
     background-color: $color-blue;
     height: 100%;
     overflow-y: auto;
+
+    @media (min-width: $screen-sm) {
+        @include theme-scrollbar($color-blue, $color-blue-dk);
+    }
 }

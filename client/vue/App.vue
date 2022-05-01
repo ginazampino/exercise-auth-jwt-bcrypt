@@ -1,5 +1,5 @@
 <template>
-    <div id="wrapper" class="scrollbar-blue">
+    <div id="wrapper">
         <router-view></router-view>
     </div>
 </template>
