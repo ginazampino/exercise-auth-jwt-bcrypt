@@ -1,0 +1,6 @@
+a, button, input {
+    &:focus-visible {
+       outline: 4px solid $color-black;
+       transition: outline .05s ease-in-out;
+    }
+}
