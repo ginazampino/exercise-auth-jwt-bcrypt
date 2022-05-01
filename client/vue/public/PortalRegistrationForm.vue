@@ -1,7 +1,7 @@
 <template>
     <main>
         <form class="basic" @submit.prevent="handleSubmit">
-            <div id="invalidAttempt" class="form-error hidden">Please try again.</div>
+            <div id="invalidAttempt" class="form-error hidden" role="alert">Please try again.</div>
             <input class="yellow" v-model="registerUsername" name="username" type="text" aria-label="Username" placeholder="Username" required />
             <input class="yellow" v-model="registerEmail" name="email" type="email" aria-label="Email address" placeholder="Email address" required />
             <input class="yellow" v-model="registerPassword" name="password" type="password" aria-label="Password" placeholder="Password" required />
