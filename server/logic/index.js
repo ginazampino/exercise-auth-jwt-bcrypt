@@ -52,25 +52,25 @@ const User = require('../database/models/User.js');
                     const isNotEmpty = (password.trim() != '') && (confirm.trim() != '');
     
                     if (isNotEmpty) {
-                        // console.log('[DEBUG] validateNewPassword() reported a valid password.');
+                        console.log('[DEBUG] validateNewPassword() reported a valid password.');
                         return true;
                     } else {
-                        // console.log('[DEBUG] validateNewPassword() reported passwords are empty strings.');
+                        console.log('[DEBUG] validateNewPassword() reported passwords are empty strings.');
                         return false;
                     };
     
                 } else {
-                    // console.log("[DEBUG] validateNewPassword() reported passwords aren't strings.");
+                    console.log("[DEBUG] validateNewPassword() reported passwords aren't strings.");
                     return false;
                 };
     
             } else {
-                // console.log("[DEBUG] validateNewPassword() reported passwords don't match.");
+                console.log("[DEBUG] validateNewPassword() reported passwords don't match.");
                 return false;
             };
             
         } else {
-            // console.log('[DEBUG] validateNewPassword() reported a missing password.');
+            console.log('[DEBUG] validateNewPassword() reported a missing password.');
             return false;
         };
     };
@@ -80,7 +80,7 @@ const User = require('../database/models/User.js');
             if (error) { return null; } else { return decode; };
         });
     
-        if (valid) {
+        if (valid) {;
             return valid;
         } else {
             return false;
@@ -92,7 +92,8 @@ const User = require('../database/models/User.js');
     GET */
 
     function getCurrentTime() {
-        return new Date();
+        const utc = new Date().toISOString().replace('Z','').replace('T', ' ');
+        return new Date(utc);
     };
 
     function getSessionId(session) {
@@ -195,7 +196,7 @@ const User = require('../database/models/User.js');
         if (result) {
             return result.id;
         } else {
-            // console.log("[DEBUG] findUserByEmail() found no user.");
+            console.log("[DEBUG] findUserByEmail() found no user.");
             return false;
         };
     };
@@ -206,7 +207,7 @@ const User = require('../database/models/User.js');
         if (result) {
             return result.id;
         } else {
-            // console.log("[DEBUG] findUserByUsername() found no user.");
+            console.log("[DEBUG] findUserByUsername() found no user.");
             return false;
         };
     };
@@ -217,7 +218,7 @@ const User = require('../database/models/User.js');
         if (result) {
             return result.id;
         } else {
-            // console.log("[DEBUG] findUserByEmail() found no user.");
+            console.log("[DEBUG] findUserByEmail() found no user.");
             return false;
         };
     };
@@ -226,10 +227,10 @@ const User = require('../database/models/User.js');
         const result = await User.query().where("friendCode", code).first();
     
         if (result) {
-            // console.log("[DEBUG] findUserByCode() returned a user's ID.");
+            console.log("[DEBUG] findUserByCode() returned a user's ID.");
             return result.id;
         } else {
-            // console.log("[DEBUG] findUserByCode() found no user.");
+            console.log("[DEBUG] findUserByCode() found no user.");
             return false;
         };
     };
@@ -239,10 +240,10 @@ const User = require('../database/models/User.js');
         const resultUsername = await findUserByUsername(username);
     
         if (resultEmail || resultUsername) {
-            // console.log("[DEBUG] findExistingUser() found a user and returned false.")
+            console.log("[DEBUG] findExistingUser() found a user and returned false.")
             return false;
         } else {
-            // console.log("[DEBUG] findExistingUser() found no user and returned true.")
+            console.log("[DEBUG] findExistingUser() found no user and returned true.")
             return true;
         };
     };
@@ -278,18 +279,18 @@ const User = require('../database/models/User.js');
                             friendCode: generated.randomCode,
                             createdAt: generated.currentTime
                         });
-                        // console.log("[DEBUG] registerUser() inserted a new user row into the database.");
+                        console.log("[DEBUG] registerUser() inserted a new user row into the database.");
                         return true;
                     } else {
-                        // console.log("[DEBUG] registerUser() received an invalid friend code.");
+                        console.log("[DEBUG] registerUser() received an invalid friend code.");
                         return false;
                     };
             } else {
-                // console.log("[DEBUG] registerUser() was told a user already exists.");
+                console.log("[DEBUG] registerUser() was told a user already exists.");
                 return false;
             };
         } else {
-            // console.log("[DEBUG] registerUser() received invalid form data.");
+            console.log("[DEBUG] registerUser() received invalid form data.");
             return false;
         };
     };
@@ -298,7 +299,7 @@ const User = require('../database/models/User.js');
         const userId = await findUserByEmail(email);
     
         if (userId) {
-            // console.log("[DEBUG] loginUser() received a user ID from findUserByEmail().");
+            console.log("[DEBUG] loginUser() received a user ID from findUserByEmail().");
             const match = await doBcryptCompare(userId, password);
     
             if (match) {
@@ -310,14 +311,14 @@ const User = require('../database/models/User.js');
                             visitedAt: currentTime
                         });
 
-                // console.log("[DEBUG] loginUser() received a confirmed match from bcryptCompare().");  
+                console.log("[DEBUG] loginUser() received a confirmed match from bcryptCompare().");  
                 return userId;
             } else {
-                // console.log("[DEBUG] loginUser() received a response from bcryptCompare().");
+                console.log("[DEBUG] loginUser() received a response from bcryptCompare().");
                 return false;
             };
         } else {
-            // console.log("[DEBUG] loginUser() failed: no user.");
+            console.log("[DEBUG] loginUser() failed: no user.");
             return false;
         };
     };
@@ -336,7 +337,7 @@ const User = require('../database/models/User.js');
             }); 
             
             if (isEmpty) {
-                // console.log("[DEBUG] updateUserProfile() received an empty form.")
+                console.log("[DEBUG] updateUserProfile() received an empty form.")
                 return false;
             } else {
                 const newPassword = (data.password || data.confirm);
@@ -363,14 +364,14 @@ const User = require('../database/models/User.js');
                                     updatedAt: currentTime
                                 });
     
-                            // console.log("[DEBUG] updateUserProfile() updated all profile information.");
+                            console.log("[DEBUG] updateUserProfile() updated all profile information.");
                             return true;
                         } else {
-                            // console.log("[DEBUG] updateUserProfile() reported that new passwords aren't valid.")
+                            console.log("[DEBUG] updateUserProfile() reported that new passwords aren't valid.")
                             return false;
                         }
                     } else {
-                        // console.log("[DEBUG] updateUserProfile() reported that new passwords don't match.")
+                        console.log("[DEBUG] updateUserProfile() reported that new passwords don't match.")
                         return false;
                     };
     
@@ -388,14 +389,14 @@ const User = require('../database/models/User.js');
                             updatedAt: currentDate
                         });
                     
-                    // console.log("[DEBUG] updateUserProfile() updated all profile information except for the password.");
+                    console.log("[DEBUG] updateUserProfile() updated all profile information except for the password.");
                     return true;
                 };
     
             };
     
         } else {
-            // console.log("[DEBUG] updateUserProfile() found no user.")
+            console.log("[DEBUG] updateUserProfile() found no user.")
             return false;
         };
     };
