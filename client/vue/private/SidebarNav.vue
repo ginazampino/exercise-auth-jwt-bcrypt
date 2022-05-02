@@ -15,10 +15,10 @@
             </ul>
         </nav>
         <div class="currency" aria-label="My currency">
-            <button class="flat yellow">
+            <button class="flat yellow alt" v-bind:title="tokens + ' tokens'">
                 <i class="fas fa-coins left" aria-label="Tokens"></i> {{ tokens }}
             </button>
-            <button class="flat yellow">
+            <button class="flat yellow alt" v-bind:title="tickets + ' tickets'">
                 <i class="fas fa-ticket-alt left" aria-label="Tickets"></i> {{ tickets }}
             </button>
         </div>
