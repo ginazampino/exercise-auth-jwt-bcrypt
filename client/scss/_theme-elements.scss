@@ -7,18 +7,44 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: $family-heading;
+
+    &.blue {
+        color: $color-blue;
+		text-shadow: 0px 2px 0px $color-blue-dk;
+    }
+
+	&.red {
+		color: $color-red;
+		text-shadow: 0px 2px 0px $color-red-dk;
+	}
+
+	&.yellow {
+		color: $color-yellow;
+		text-shadow: 0px 2px 0px $color-yellow-dk;
+	}
+
+    .subtitle {
+        color: $color-black;
+        text-shadow: none;
+    }
 }
 
 h1 {
     font-size: $size-h1;
+    line-height: $size-h1;
+    text-align: center;
 }
 
 h2 {
     font-size: $size-h2;
+	line-height: $size-h2;
+	margin-bottom: rem(18px);
 }
 
 p {
     font-family: $family-body;
+    font-size: $size-md;
+    margin-bottom: rem(25px);
 }
 
 img {
@@ -37,5 +63,45 @@ a {
 section {
     &.center {
         @include flex(center, center, row);
+    }
+}
+
+i {
+    user-select: none;
+
+    &.blue {
+        color: $color-blue;
+        text-shadow: 0px 2px 0px $color-blue-dk;
+
+        &.plain {
+            text-shadow: none;
+        }
+    }
+
+    &.red {
+        color: $color-red;
+        text-shadow: 0px 2px 0px $color-red-dk;
+
+        &.plain {
+            text-shadow: none;
+        }
+    }
+
+    &.yellow {
+        color: $color-yellow;
+        text-shadow: 0px 2px 0px $color-yellow-dk;
+
+        &.plain {
+            text-shadow: none;
+        }
+    }
+
+    &.pink {
+        color: $color-pink;
+        text-shadow: 0px 2px 0px $color-pink-dk;
+
+        &.plain {
+            text-shadow: none;
+        }
     }
 }

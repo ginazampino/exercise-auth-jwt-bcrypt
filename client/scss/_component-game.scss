@@ -23,9 +23,60 @@
 }
 
 #game main {
-    background-color: $color-white;
+    overflow-x: hidden;
+    height: 100%;
 
     @media (min-width: $screen-lg) {
         border-right: 6px solid $color-blue-dk;
+    }
+}
+
+#game main .content {
+    @include theme-scrollbar($color-white, $color-white-dk);
+    background-color: $color-white;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    padding: rem(40px) rem(40px) rem(40px) rem(60px);
+
+    footer {
+        text-align: center;
+    }
+}
+
+#game .code-container {
+    @include flex(center, center, column);
+
+    h2 {
+        margin-bottom: rem(20px);
+    }
+
+    code {
+        background-color: rgba($color-white-dk, .5);
+        border-radius: rem(8px);
+        
+        cursor: pointer;
+        font-family: $family-heading;
+        font-size: rem(25px);
+        letter-spacing: rem(2.5px);
+        padding: rem(12px) rem(40px);
+        width: auto;
+
+        &:hover i {
+            transform: scale(115%);
+        }
+
+        &:active i {
+            transform: scale(90%);
+        }
+    }
+
+    i {
+        @include transform();
+        color: $color-red;
+        margin-left: rem(12px);
+        text-shadow: 0px 2px 0px $color-red-dk;
     }
 }

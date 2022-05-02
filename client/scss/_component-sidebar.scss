@@ -148,6 +148,7 @@
     margin: rem(20px);
 
     img {
+        cursor: help;
         margin-bottom: rem(5px);
     }
 }
@@ -192,6 +193,6 @@
 
 #sidebar .clock {
     font-size: $size-sm;
-    font-weight: 900;
+    font-weight: 800;
     letter-spacing: .025em;
 }

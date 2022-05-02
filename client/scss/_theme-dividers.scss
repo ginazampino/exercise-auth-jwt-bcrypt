@@ -1,0 +1,28 @@
+div.divider {
+    border-radius: rem(6px);
+	height: rem(6px);
+	margin: rem(40px) 0;
+    user-select: none;
+	width: 100%;
+}
+
+div.divider {
+    &.blank {
+        margin-bottom: rem(20px);
+    }
+
+    &.blue {
+		background-color: $color-blue;
+		border-bottom: rem(2px) solid $color-green-dk;
+	}
+
+	&.red {
+		background-color: $color-red;
+		border-bottom: rem(2px) solid $color-red-dk;
+	}
+
+	&.yellow {
+		background-color: $color-yellow;
+		border-bottom: rem(2px) solid $color-yellow-dk;
+	}
+}

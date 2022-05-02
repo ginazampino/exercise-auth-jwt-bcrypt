@@ -96,4 +96,9 @@ button.flat {
             color: $color-yellow;
         }
     }
+
+    &.yellow.alt {
+        background-color: $color-yellow-dk;
+        text-shadow: 0px rem(2px) 0px $color-yellow-xdk;
+    }
 }
