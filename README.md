@@ -1,1 +1,1 @@
-# petz-hub-prototype
+# Petz Hub
