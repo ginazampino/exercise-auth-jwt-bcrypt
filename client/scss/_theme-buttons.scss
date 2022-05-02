@@ -1,7 +1,6 @@
 button {
     font-family: $family-heading;
     font-size: $size-lg;
-    line-height: $size-lg;
     user-select: none;
     white-space: nowrap;
 }
@@ -11,7 +10,7 @@ button.pop {
     border-radius: rem(8px);
     font-weight: 900;
 	margin: 0 rem(10px);
-	padding: rem(10px) rem(20px);
+    padding: rem(2px) rem(20px);
     user-select: none;
 
     &:hover {
@@ -48,5 +47,53 @@ button.pop {
 
     &.yellow {
         @include theme-button($color-yellow, $color-yellow-dk);
+    }
+}
+
+button.flat {
+    @include flex(center, center, row);
+    border-radius: rem(12px);
+    flex-wrap: nowrap;
+    font-weight: 700;
+    padding: rem(4px) rem(12px);
+
+    i {
+        @include transform;
+        font-size: $size-sm;
+
+        &.left {
+            margin-right: rem(6px);
+        }
+
+        &.right {
+            margin-left: rem(6px);
+        }
+    }
+
+    &:hover, &:active {
+        i {
+            transform: scale(120%);
+        }
+    }
+    
+}
+
+button.flat {
+    color: $color-white;
+
+    &.red {
+        background-color: $color-red;
+
+        i {
+            color: $color-red-dk;
+        }
+    }
+
+    &.yellow {
+        background-color: $color-yellow-dk;
+
+        i {
+            color: $color-yellow;
+        }
     }
 }

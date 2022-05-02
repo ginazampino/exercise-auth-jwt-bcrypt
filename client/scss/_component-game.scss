@@ -1,0 +1,31 @@
+#game {
+    @include flex(center, center, column);
+    height: 100%;
+}
+
+#game .container {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 100%;
+    width: 100%;
+
+    @media (min-width: $screen-md) {
+        grid-template-columns: auto 1fr;
+    }
+
+    @media (min-width: $screen-lg) {
+        max-width: $screen-lg;
+    }
+
+    @media (min-width: $screen-xl) {
+        max-width: $screen-xl;
+    }
+}
+
+#game main {
+    background-color: $color-white;
+
+    @media (min-width: $screen-lg) {
+        border-right: 6px solid $color-blue-dk;
+    }
+}

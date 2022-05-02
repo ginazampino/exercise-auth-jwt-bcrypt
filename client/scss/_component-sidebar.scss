@@ -1,0 +1,197 @@
+#sidebar {
+    background-color: $color-yellow;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    position: relative;
+    
+    @media (min-width: $screen-md) {
+        border-left: rem(6px) solid $color-yellow-dk;
+        border-right: rem(6px) solid $color-yellow-dk;
+        width: rem(280px);
+    }
+}
+
+#sidebar header {
+    padding: rem(20px) rem(20px) 0 rem(20px);
+
+    img:hover {
+        @include transform();
+        transform: scale(105%);
+    }
+}
+
+#sidebar footer {
+    form {
+        text-align: center;
+    }
+    button {
+        font-size: $size-md;
+    }
+}
+
+#sidebar {
+    .ribbon {
+        @include flex(center, center, row);
+        background-color: $color-red;
+        border-bottom: rem(6px) solid $color-red-dk;
+        border-radius: rem(8px) rem(8px) 0 0;
+        color: $color-white;
+        height: rem(52px);
+        margin: rem(22px) rem(-38px) 0 rem(-38px);
+        position: relative;
+        user-select: none;
+        transform-style: preserve-3d;
+
+        div {
+            @include flex(center, center, row);
+            padding: 0 rem(10px);
+            width: 100%;
+        }
+    
+        span {
+            cursor: pointer;
+            font-family: $family-heading;
+            font-size: rem(24px);
+            line-height: rem(24px);
+            padding-left: rem(30px);
+            text-shadow: 0px 2px 0px $color-red-dk;
+
+            &:hover + i {
+                    transform: rotate(45deg);
+            }
+
+            &:active + i {
+                    transform: scale(125%) rotate(45deg);
+            }
+        }
+
+        i {
+            @include transform();
+            color: $color-red-dk;
+            font-size: rem(24px);
+            line-height: rem(24px);
+            margin-left: rem(6px);
+            bottom: rem(1px);
+            text-shadow: none;
+        }
+    }
+
+    .ribbon::before, .ribbon::after {
+        background-color: $color-red-dk;
+        content: '';
+        height: rem(60px);
+        position: absolute;
+        top: 0;
+        transform: translateZ(-1px);
+        width: rem(12px);
+    }
+
+    .ribbon::before {
+        border-radius: rem(10px) 0 0 rem(10px);
+        left: 0;  
+    }
+    
+    .ribbon::after {
+        border-radius: 0 rem(10px) rem(10px) 0 ;
+        right: 0;
+    }
+}
+
+
+#sidebar nav {
+    @include flex(center, flex-start, column);
+    padding: rem(25px) rem(40px) rem(20px) rem(40px);
+
+    li + li {
+        margin-top: rem(12px);
+    }
+
+    button {
+        font-family: $family-body;
+        font-size: $size-md;
+        font-weight: 800;
+        letter-spacing: .025em;
+        line-height: $size-md;
+        margin: 0;
+        padding: rem(10px) rem(18px) rem(10px) rem(12px);
+        text-align: left;
+        width: 100%;
+    }
+}
+
+#sidebar .currency {
+    @include flex(center, center, row);
+
+    button {
+        line-height: $size-md;
+        width: rem(60px);
+        padding: rem(6px) rem(6px);
+
+        &:hover, &:active {
+            .fa-ticket-alt {
+                transform: scale(120%) rotate(-25deg);
+            }
+        }
+    }
+
+    button + button {
+        margin-left: rem(6px);
+    }
+
+    .fa-ticket-alt {
+        transform: rotate(-25deg);
+    }
+}
+
+#sidebar footer {
+    @include flex(center, center, column);
+    margin: rem(20px);
+
+    img {
+        margin-bottom: rem(5px);
+    }
+}
+
+#sidebar .controls {
+    @include flex(center, center, row);
+    background-color: $color-red;
+    border-bottom: rem(6px) solid $color-red-dk;
+    //border-left: rem(8px) solid $color-red-dk;
+    //border-right: rem(8px) solid $color-red-dk;
+    border-top-left-radius: rem(100px);
+    border-top-right-radius: rem(100px);
+    height: rem(100px);
+    margin: 0 rem(-30px);
+
+    li {
+        @include flex(center, center, column);
+        background-color: $color-red-dk;
+        border-radius: 100%;
+        cursor: pointer;
+        height: rem(60px);
+        margin: rem(8px);
+        width: rem(60px);
+
+        &:hover i {
+            transform: scale(125%);
+        }
+
+        &:active i {
+            color: $color-red;
+            transform: rotate(8deg) scale(125%);
+        }
+    }
+
+    i {
+        @include transform();
+        color: $color-white;
+        font-size: rem(30px);
+        line-height: rem(30px);
+    }
+}
+
+#sidebar .clock {
+    font-size: $size-sm;
+    font-weight: 900;
+    letter-spacing: .025em;
+}

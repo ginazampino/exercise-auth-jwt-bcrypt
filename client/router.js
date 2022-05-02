@@ -33,9 +33,15 @@ export default new Router({
         },
         {
             path: '/',
-            component: require('./vue/private/Home.vue').default,
+            component: require('./vue/private/Game.vue').default,
             beforeEnter: guardBehindSession,
+            redirect: '/home',
             children: [
+                {
+                    path: '/home',
+                    component: require('./vue/private/GameHome.vue').default,
+                    beforeEnter: guardBehindSession
+                },
                 {
                     path: '/code',
                     component: require('./vue/private/app/FriendCode.vue').default,
