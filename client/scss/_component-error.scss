@@ -5,11 +5,16 @@
 
     h1 {
         color: $color-white;
+        font-size: rem(60px);
+        line-height: rem(60px);
+        margin: rem(20px);
         text-shadow: 0px 2px 0px $color-blue-dk;
     }
 
     a {
         color: $color-white;
+        font-size: $size-lg;
+        font-weight: 800;
     }
 }
 
@@ -17,7 +22,7 @@
     background-color: $color-red;
     border-radius: rem(6px);
     color: $color-white;
-    font-size: 14px;
+    font-size: rem(14px);
     font-weight: 700;
     margin-bottom: rem(10px);
     padding: rem(2px) rem(4px);
