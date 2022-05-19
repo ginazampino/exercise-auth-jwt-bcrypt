@@ -4,6 +4,6 @@
         <h1>
             404 Not Found-it
         </h1>
-        <router-link to="/home" aria-label="Return to home page">Go home</router-link>
+        <router-link to="/" aria-label="Return to home page">Go home</router-link>
     </div>
 </template>

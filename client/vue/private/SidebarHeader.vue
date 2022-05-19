@@ -1,10 +1,10 @@
 <template>
     <header>
-        <router-link to="/home" aria-label="Return home">
+        <router-link to="/" aria-label="Return home">
             <img src="../../img/ph-logo.png" alt="Petz Hub logo">
         </router-link>
         <div class="ribbon">
-            <router-link tag="div" to="/home" aria-label="Edit account information">
+            <router-link tag="div" to="/user/edit" aria-label="Edit account information">
                 <span>
                     {{ sessionUser }}
                 </span>

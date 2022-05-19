@@ -35,16 +35,26 @@ export default new Router({
             path: '/',
             component: require('./vue/private/Game.vue').default,
             beforeEnter: guardBehindSession,
-            redirect: '/home',
+            redirect: '/news',
             children: [
                 {
-                    path: '/home',
+                    path: '/news',
                     component: require('./vue/private/GameHome.vue').default,
                     beforeEnter: guardBehindSession
                 },
                 {
                     path: '/code',
                     component: require('./vue/private/app/FriendCode.vue').default,
+                    beforeEnter: guardBehindSession
+                },
+                {
+                    path: '/user/edit',
+                    component: require('./vue/private/app/UserEditor.vue').default,
+                    beforeEnter: guardBehindSession
+                },
+                {
+                    path: '/user/:id',
+                    component: require('./vue/private/app/UserProfile.vue').default,
                     beforeEnter: guardBehindSession
                 }
             ]

@@ -40,3 +40,37 @@ input, textarea {
         border-bottom: rem(6px) solid $color-yellow-dk;
     }
 }
+
+form.editor {
+    input, textarea {
+        transform: none;
+
+        &:not(:disabled) {
+            &:hover, &:active, &:focus {
+                background-color: $color-white;
+            }
+        }
+
+        &:disabled {
+            &:hover, &:active, &:focus {
+                background-color: rgba($color-red, .15);
+                border-color: $color-red;
+
+                &::placeholder {
+                    color: $color-red-dk;
+                }
+            }
+        }
+
+    }
+
+    > section {
+        @include flex(center, center, row);
+
+        > div {
+            @include flex(flex-start, flex-start, column);
+            padding: rem(10px);
+            width: 100%;
+        }
+    }
+}

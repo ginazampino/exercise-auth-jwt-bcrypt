@@ -376,7 +376,7 @@ const User = require('../database/models/User.js');
                     };
     
                 } else {
-                    const currentDate = getCurrentDate();
+                    const currentDate = getCurrentTime();
     
                     await knex('users')
                         .where({ 'id': user })

@@ -16,7 +16,7 @@
             <section>
                     <div class="divider yellow"></div>
                     <footer>
-                        I have no idea what I'm doing.
+                        Discord | Help
                     </footer>
             </section>
         </div>
