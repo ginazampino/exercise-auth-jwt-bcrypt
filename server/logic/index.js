@@ -468,7 +468,7 @@ const { User, Species, Breed, Pet } = require('../database/models');
     /* ================================== */
 
     async function doUpdateUser(sessionData, formData) {
-        const sessionId = await checkSession(sessionData)
+        const sessionId = await checkSession(sessionData);
         const userId = await checkUser(sessionId);
         const newPassword = checkForPassword(formData.password, formData.confirm);
 
