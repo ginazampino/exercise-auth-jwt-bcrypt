@@ -1,24 +1,20 @@
 <template>
     <main>
         <div class="content">
-            <h1 class="red">
-                <i class="fa-solid fa-address-card blue"></i>
-                <span v-if="teamName != null">
-                    {{ teamName }}
-                </span>
-                <span v-if="teamName == null">
-                    {{ userName }}'s Team
-                </span>
-            </h1>
-            <div class="divider yellow"></div>
+            <AppHeader :heading-text="headerText" />
         </div>
     </main>
 </template>
 
 <script>
     import axios from 'axios';
+    import AppHeader from './AppHeader.vue';
 
     export default {
+        components: {
+            AppHeader
+        },
+
         data() {
             return {
                 userId: null,
@@ -30,7 +26,8 @@
                 teamSize: null,
                 websiteName: null,
                 websiteUrl: null,
-                createdAt: null
+                createdAt: null,
+                headerText: null
             }
         },
 
@@ -45,7 +42,18 @@
                 this.teamSize = publicProfile.data.teamSize;
                 this.websiteName = publicProfile.data.websiteName;
                 this.websiteUrl = publicProfile.data.websiteUrl;
-                this.createdAt = (publicProfile.data.createdAt).substring(0, 10);
+
+                if (!publicProfile.data.createdAt) {
+                    this.createdAt = null;
+                } else {
+                    this.createdAt = (publicProfile.data.createdAt).substring(0, 10);
+                };
+
+                if (this.teamName != null) {
+                    this.headerText = this.teamName;
+                } else {
+                    this.headerText = this.userName;
+                };
             }
         },
 

@@ -8,14 +8,11 @@
 </template>
 
 <script>
-    import axios from 'axios';
-
     import sidebar from './Sidebar.vue';
 
     export default {
         components: {
             'game-sidebar': sidebar
         }
-
     };
 </script>

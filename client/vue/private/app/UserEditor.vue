@@ -1,12 +1,7 @@
 <template>
     <main>
         <div class="content">
-            <section>
-                <h1 class="red">
-                    <i class="fas fa-cog blue"></i> Edit your profile
-                </h1>
-                <div class="divider yellow"></div>
-            </section>
+            <AppHeader heading-text="Edit your account" />
             <form class="editor" @submit.prevent="handleSubmit">
                 <h2>
                     Account information
@@ -51,12 +46,6 @@
                         <input v-model="editorPrefix" class="background white" type="text" placeholder="e.g. PH"/>
                     </div>
                 </section>
-                <section>
-                        <div>
-                            <label>Team description</label>
-                            <textarea v-model="editorDescription" class="background white" type="text" placeholder="Type here..."/>
-                        </div>
-                </section>
                 <div class="divider yellow"></div>
                 <h2>
                     Contact information
@@ -77,10 +66,10 @@
                 <div class="divider yellow"></div>
                 <section>
                     <router-link :to="'/user/' + sessionId">
-                        <button class="pop yellow">View my profile</button>
+                        <button class="pop yellow" aria-label="Click to go to your profile page">View my profile</button>
                     </router-link>
-                    <button class="pop red" @click.prevent="handleCancel()">Cancel</button>
-                    <button class="pop blue" type="submit">Save</button>
+                    <button class="pop red" @click.prevent="handleCancel()"  aria-label="Click to reset the form data">Cancel</button>
+                    <button class="pop blue" type="submit"  aria-label="Click to update your profile information">Save</button>
                </section>
             </form>
         </div>
@@ -89,8 +78,13 @@
 
 <script>
     import axios from 'axios';
+    import AppHeader from './AppHeader.vue';
 
     export default {
+        components: {
+            AppHeader
+        },
+
         data() {
             return {
                 sessionId: null,
@@ -100,7 +94,6 @@
                 editorConfirm: null,
                 editorTeam: null,
                 editorPrefix: null,
-                editorDescription: null,
                 editorWebsite: null,
                 editorUrl: null
             }
@@ -108,17 +101,18 @@
 
         methods: {
             loadData: async function () {
-                const session = await axios.get('/api/get/cookie').then((result) => { return result; });
+                const session = await axios.get('/api/get/cookie').then((result) => { return result; }).catch((error) => { throw error; });
                 this.sessionId = session.data;
 
-                const profile = await axios.get(`/api/get/user/${this.sessionId}/private`).then((result) => { return result; });
-                this.editorEmail = profile.data.userEmail;
-                this.editorUsername = profile.data.userName;
-                this.editorTeam = profile.data.teamName;
-                this.editorPrefix = profile.data.teamPrefix;
-                this.editorDescription = profile.data.teamDescription;
-                this.editorWebsite = profile.data.websiteName;
-                this.editorUrl = profile.data.websiteUrl;
+                const publicData = await axios.get(`/api/get/user/${this.sessionId}/public`).then((result) => { return result; }).catch((error) => { throw error; });
+                this.editorUsername = publicData.data.userName;
+                this.editorTeam = publicData.data.teamName;
+                this.editorPrefix = publicData.data.teamPrefix;
+                this.editorWebsite = publicData.data.websiteName;
+                this.editorUrl = publicData.data.websiteUrl;
+
+                const privateData = await axios.get(`/api/get/user/${this.sessionId}/private`).then((result) => { return result; }).catch((error) => { throw error; });
+                this.editorEmail = privateData.data.userEmail;
             },
 
             async handleSubmit() {
@@ -127,7 +121,6 @@
                     confirm: this.editorConfirm,
                     team: this.editorTeam,
                     prefix: this.editorPrefix,
-                    description: this.editorDescription,
                     website: this.editorWebsite,
                     url: this.editorUrl
                 }).then(() => {
@@ -143,5 +136,5 @@
         mounted() {
             this.loadData();
         }
-    }
+    };
 </script>

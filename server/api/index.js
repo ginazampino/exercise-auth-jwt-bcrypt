@@ -10,9 +10,11 @@ const {
     getUserCurrency,
     getUserRole,
     getSessionId,
+    getPetSpecies,
     doLoginUser,
     doRegisterUser,
-    updateUser
+    doUpdateUser,
+    doRegisterPet
 } = require('../logic');
 
 require('dotenv').config();
@@ -48,6 +50,26 @@ require('dotenv').config();
             res.status(201).send('Successfully inserted a new user row into the database.');
         } else {
             res.status(400).send('Unable to insert a new user row into the database.');
+        };
+    });
+
+/* ===================================== 
+
+    Register a new pet into the database. */
+
+    router.post('/register/:id/pet', async (req, res) => {
+        const sessionId = getSessionId(req.cookies.token);
+        const requestId = parseInt(req.params.id);
+        
+        if (sessionId === requestId) {
+            return result = await doRegisterPet(req.cookies.token, req.body)
+                .then((result) => {
+                    res.status(201).send('Successfully inserted a new pet row into the database.');
+                }).catch((error) => {
+                    throw error;
+                });
+        } else {
+            res.status(400).send('Unable to insert a new pet row into the database.');
         };
     });
 
@@ -125,6 +147,22 @@ require('dotenv').config();
 
 /* ========================================
 
+    Get all pet species. */
+
+    router.get('/get/species', requireSession, async (req, res) => {
+        const session = await validateSession(req.cookies.token);
+        const sessionId = session.user;
+
+        if (sessionId) {
+            const array = await getPetSpecies();
+            res.json(array);
+        } else {
+            res.status(400).send('Server could not find an active session.');
+        };
+    });
+
+/* ========================================
+
     Get a user's public profile data. */
 
     router.get('/get/user/:id/public', requireSession, async (req, res) => {
@@ -173,15 +211,15 @@ require('dotenv').config();
         const requestId = parseInt(req.params.id);
         
         if (sessionId === requestId) {
-            return result = await updateUser(req.cookies.token, req.body).then((result) => {
+            return result = await doUpdateUser(req.cookies.token, req.body).then((result) => {
                 res.status(201).send('Updated a user row in the database.');
             }).catch((error) => {
+                console.log('API error');
                 throw error;
             });
         } else {
             res.status(401).send('Server could not find a valid session.');
         };
-        
     });
 
 /* ================================== */

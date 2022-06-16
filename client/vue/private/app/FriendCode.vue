@@ -1,12 +1,7 @@
 <template>
     <main>
         <div class="content">
-            <section>
-                <h1 class="red">
-                    <i class="fa-solid fa-gift blue"></i> Invite a friend
-                </h1>
-                <div class="divider yellow"></div>
-            </section>
+            <AppHeader heading-text="Invite a friend" />
             <section>
                 <div class="code-container" v-on:click="copyText" aria-label="Click to add to clipboard">
                     <h2>
@@ -29,8 +24,13 @@
 
 <script>
     import axios from 'axios';
+    import AppHeader from './AppHeader.vue';
 
     export default {
+        components: {
+            AppHeader
+        },
+
         data() {
             return {
                 friendCode: null

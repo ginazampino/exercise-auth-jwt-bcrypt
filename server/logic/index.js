@@ -1,33 +1,47 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { knex } = require('../database/index.js');
-const User = require('../database/models/User.js');
+const { User, Species, Breed, Pet } = require('../database/models');
 
 /* ========================================
 
-    AUTHENTICATE */
+    CREATE */
 
     async function createHash(password) {
         return await bcrypt.hash(password, 10);
     };
 
+    /* ================================== */
+
     function createToken(id) {
         return result = jwt.sign({ user: id }, process.env.JWT_SECRET, { expiresIn: '1hr' });
     };
 
+/* ========================================
+
+    REQUIRE */
+
     async function requireSession(req, res, next) {
         const session = await validateSession(req.cookies.token);
-    
-        if (session.user != null) {
-            next();
-        } else {
-            return false;
-        };
+
+        if (session.user != null) { 
+            next(); 
+        } else return false;
     };
     
 /* ========================================
 
     VALIDATE */
+
+    async function validateSession(session) {
+        return isValid = jwt.verify(session, process.env.JWT_SECRET, (error, decode) => {
+            if (error) { 
+                return null; 
+            } else return decode;
+        });
+    };
+
+    /* ================================== */
 
     function validateForm(data) {
         return isValid = Object.values(data).every((string) => {
@@ -35,154 +49,152 @@ const User = require('../database/models/User.js');
         });
     };
 
+    /* ================================== */
+
     function validatePassword(password, confirm) {
-        return isConfirmed = (password === confirm);
+        return isMatch = (password === confirm);
     };
+
+    /* ================================== */
 
     function validateNewPassword(password, confirm) {
-        const isNotMissing = ((password !== null) && (confirm !== null));
-    
-        if (isNotMissing) {
-            const isMatch = (password === confirm);
-    
-            if (isMatch) {
-                const isString = (typeof password == 'string') && (typeof confirm == 'string');
-    
-                if (isString) {
-                    const isNotEmpty = (password.trim() != '') && (confirm.trim() != '');
-    
-                    if (isNotEmpty) {
-                        console.log('[DEBUG] validateNewPassword() reported a valid password.');
-                        return true;
-                    } else {
-                        console.log('[DEBUG] validateNewPassword() reported passwords are empty strings.');
-                        return false;
-                    };
-    
-                } else {
-                    console.log("[DEBUG] validateNewPassword() reported passwords aren't strings.");
-                    return false;
-                };
-    
-            } else {
-                console.log("[DEBUG] validateNewPassword() reported passwords don't match.");
-                return false;
-            };
-            
-        } else {
-            console.log('[DEBUG] validateNewPassword() reported a missing password.');
-            return false;
-        };
-    };
+        const isNotNull = ((password !== null) && (confirm !== null));
 
-    async function validateSession(session) {
-        const valid = jwt.verify(session, process.env.JWT_SECRET, (error, decode) => {
-            if (error) { return null; } else { return decode; };
-        });
-    
-        if (valid) {;
-            return valid;
-        } else {
-            return false;
+        function checkMatch() {
+            return isMatch = (password === confirm);
         };
+
+        function checkType() {
+            return isString = (typeof password == 'string') && (typeof confirm == 'string');
+        };
+
+        function checkEmpty() {
+            return isNotEmpty = (password.trim() != '') && (confirm.trim() != '');
+        };
+
+        if (isNotNull) {
+            return checkMatch() && checkType() && checkEmpty();
+        } else return false;
     };
 
 /* ========================================
 
     GET */
 
-    function getCurrentTime() {
-        const utc = new Date().toISOString().replace('Z','').replace('T', ' ');
-        return new Date(utc);
-    };
-
-    function getSessionId(session) {
-        const valid = jwt.verify(session, process.env.JWT_SECRET, (error, decode) => {
-            if (error) { return null; } else { return decode.user; };
-        });
-    
-        if (valid) {
-            return valid;
-        } else {
-            return false;
-        };
-    }; 
-
     async function getUserPassword(id) {
-        const result = await User.query().select("userPassword").where("id", id).first();
-        return result.userPassword;
+        const user = await User.query().select('userPassword').where('id', id).first();
+
+        return user.userPassword;
     };
+
+    /* ================================== */
 
     async function getUserRole(id) {
         const user = await findUserById(id);
-    
-        if (user) {
-            const result = await User.query()
-                .innerJoin("userroles", "users.roleId", "userroles.id")
-                .select("roleName")
-                .where("users.id", id)
-    
+
+        async function queryDatabase() {
+            const result = await User.query().innerJoin('userroles', 'users.roleId', 'userroles.id').select('roleName').where('users.id', id);
+            
             return result[0].roleName;
-        } else {
-            return false;
         };
+
+        if (user) { 
+            return role = await queryDatabase(); 
+        } else return false;
     };
 
-    async function getPublicProfile(id) {
-        const profile = await User.query().where("id", id).first();
-    
-        return {
-            id: profile.id,
-            userName: profile.userName,
-            teamName: profile.teamName,
-            teamPrefix: profile.teamPrefix,
-            teamDescription: profile.teamDescription,
-            teamSize: profile.teamSize,
-            websiteName: profile.websiteName,
-            websiteUrl: profile.websiteUrl,
-            createdAt: profile.createdAt
-        };
+    /* ================================== */
+
+    async function getAllPetSpecies() {
+        const species = await Species.query().select('*');
+        let speciesList = [];
+
+        species.forEach((row) => { 
+            speciesList.push(row.speciesName); 
+        });
+
+        return speciesList;
     };
-    
-    async function getPrivateProfile(id) {
-        const profile = await User.query().where("id", id).first();
-    
-        return {
-            id: profile.id,
-            userEmail: profile.userEmail,
-            friendCode: profile.friendCode,
-            userName: profile.userName,
-            teamName: profile.teamName,
-            teamSize: profile.teamSize,
-            teamDescription: profile.teamDescription,
-            teamPrefix: profile.teamPrefix,
-            websiteName: profile.websiteName,
-            websiteUrl: profile.websiteUrl,
-            tokens: profile.tokens,
-            tickets: profile.tickets,
-            beautyTreats: profile.beautyTreats,
-            beautyPotions: profile.beautyPotions,
-            healthTreats: profile.healthTreats,
-            healthPotions: profile.healthPotions,
-            loveTreats: profile.loveTreats,
-            lovePotions: profile.lovePotions,
-            skillTreats: profile.skillTreats,
-            skillPotions: profile.skillPotions,
-            createdAt: profile.createdAt,
-            updatedAt: profile.updatedAt
-        };
+
+    /* ================================== */
+
+    function getSessionId(session) {
+        const isValid = jwt.verify(session, process.env.JWT_SECRET, (error, decode) => {
+            if (error) {
+                 return null; 
+            } else return decode.user;
+        });
+
+        if (isValid) { 
+            return isValid; 
+        } else return false;
     };
+
+    /* ================================== */
+
+    function getCurrentTime() {
+        const utcTime = new Date().toISOString().replace('Z','').replace('T', ' ');
+
+        return new Date(utcTime);
+    };
+
+    /* ================================== */
 
     async function getUserCurrency(id) {
-        const profile = await getPrivateProfile(id);
-        
-        if (profile) {
+        const data = await getPrivateInventory(id);
+
+        if (data) {
             return {
-                tokens: profile.tokens,
-                tickets: profile.tickets
+                tokens: data.tokens,
+                tickets: data.tickets
             };
-        } else {
-            return false;
+        } else return false;
+    };
+
+    /* ================================== */
+
+    async function getPublicProfile(id) {
+        const public = await User.query().where('id', id).first();
+
+        return {
+            id: public.id,
+            userName: public.userName,
+            teamName: public.teamName,
+            teamPrefix: public.teamPrefix,
+            teamSize: public.teamSize,
+            websiteName: public.websiteName,
+            websiteUrl: public.websiteUrl,
+            createdAt: public.createdAt
+        };
+    };
+
+    /* ================================== */
+
+    async function getPrivateProfile(id) {
+        const private = await User.query().where('id', id).first();
+
+        return {
+            userEmail: private.userEmail,
+            friendCode: private.friendCode
+        };
+    };
+
+    /* ================================== */
+
+    async function getPrivateInventory(id) {
+        const inventory = await User.query().where('id', id).first();
+
+        return {
+            tokens: inventory.tokens,
+            tickets: inventory.tickets,
+            beautyTreats: inventory.beautyTreats,
+            beautyPotions: inventory.beautyPotions,
+            healthTreats: inventory.healthTreats,
+            healthPotions: inventory.healthPotions,
+            loveTreats: inventory.loveTreats,
+            lovePotions: inventory.lovePotions,
+            skillTreats: inventory.skillTreats,
+            skillPotions: inventory.skillPotions,
         };
     };
     
@@ -191,238 +203,348 @@ const User = require('../database/models/User.js');
     FIND */
 
     async function findUserById(id) {
-        const result = await User.query().where("id", id).first();
-    
-        if (result) {
-            return result.id;
-        } else {
-            console.log("[DEBUG] findUserByEmail() found no user.");
-            return false;
-        };
+        const user = await User.query().where('id', id).first();
+
+        if (user) { 
+            return user.id; 
+        } else return false;
     };
+
+    /* ================================== */
 
     async function findUserByUsername(username) {
-        const result = await User.query().where("userName", username).first();
-    
-        if (result) {
-            return result.id;
-        } else {
-            console.log("[DEBUG] findUserByUsername() found no user.");
-            return false;
-        };
+        const user = await User.query().where('userName', username).first();
+
+        if (user) { 
+            return user.id; 
+        } else return false;
     };
+
+    /* ================================== */
 
     async function findUserByEmail(email) {
-        const result = await User.query().where("userEmail", email).first();
-    
-        if (result) {
-            return result.id;
-        } else {
-            console.log("[DEBUG] findUserByEmail() found no user.");
-            return false;
-        };
+        const user = await User.query().where('userEmail', email).first();
+
+        if (user) { 
+            return user.id; 
+        } else return false;
     };
+
+    /* ================================== */
 
     async function findUserByCode(code) {
-        const result = await User.query().where("friendCode", code).first();
-    
-        if (result) {
-            console.log("[DEBUG] findUserByCode() returned a user's ID.");
-            return result.id;
-        } else {
-            console.log("[DEBUG] findUserByCode() found no user.");
-            return false;
-        };
+        const user = await User.query().where('friendCode', code).first();
+
+        if (user) { 
+            return user.id; 
+        } else return false;
     };
 
-    async function findExistingUser(email, username) {
-        const resultEmail = await findUserByEmail(email);
-        const resultUsername = await findUserByUsername(username);
-    
-        if (resultEmail || resultUsername) {
-            console.log("[DEBUG] findExistingUser() found a user and returned false.")
-            return false;
-        } else {
-            console.log("[DEBUG] findExistingUser() found no user and returned true.")
-            return true;
-        };
+    /* ================================== */
+
+    async function findPetByShowName(name) {
+        const pet = await Pet.query().where('showName', name).first();
+
+        if (pet) { 
+            return pet.id; 
+        } else return false;
+    };
+
+    /* ================================== */
+
+    async function findBreedByName(name) {
+        const breed = await Breed.query().where('breedName', name).first();
+
+        if (breed) { 
+            return breed; 
+        } else return false;
+    };
+
+    /* ================================== */
+
+    async function findExistingUser(username, email) {
+        const foundEmail = await findUserByEmail(email);
+        const foundUsername = await findUserByUsername(username);
+
+        if (foundEmail || foundUsername) { 
+            return false; 
+        } else return true;
     };
 
 /* ========================================
 
     DO */
 
-    async function doBcryptCompare(userId, password) {
-        const hash = await getUserPassword(userId);
+    async function doBcryptCompare(id, password) {
+        const hash = await getUserPassword(id);
+
         return await bcrypt.compare(password, hash);
     };
 
-    async function doRegisterUser(data) {
-        const valid = validateForm(data) && validatePassword(data.password, data.confirm);
-        const available = await findExistingUser(data.email, data.username);
-        const friend = await findUserByCode(data.code);
-    
-        const generated = {
-            hashedPassword: await createHash(data.password),
-            randomCode: Math.floor(Math.random() * 900000) + 100000,
-            currentTime: getCurrentTime()
-        };
-        
-        if (valid) {
-            if (available) {
-                    if (friend) {
-                        await knex('users').insert({
-                            userName: data.username,
-                            userEmail: data.email,
-                            userPassword: generated.hashedPassword,
-                            inviteCode: data.code,
-                            friendCode: generated.randomCode,
-                            createdAt: generated.currentTime
-                        });
-                        console.log("[DEBUG] registerUser() inserted a new user row into the database.");
-                        return true;
-                    } else {
-                        console.log("[DEBUG] registerUser() received an invalid friend code.");
-                        return false;
-                    };
-            } else {
-                console.log("[DEBUG] registerUser() was told a user already exists.");
-                return false;
-            };
-        } else {
-            console.log("[DEBUG] registerUser() received invalid form data.");
-            return false;
-        };
+    /* ================================== */
+
+    function doParseGeneration(number) {
+        if (number) { 
+            return parseInt(number); 
+        } else return null;
     };
+
+    /* ================================== */
+
+    async function doRegisterPet(sessionData, formData) {
+        const sessionId = await checkSession();
+
+        async function checkSession() {
+            const session = await validateSession(sessionData);
+
+            if (session) { 
+                return session.user; 
+            } else return false;
+        };
+
+        async function checkShowName() {
+            return result = await findPetByShowName(formData.showName);
+        };
+
+        async function checkBreed() {
+            return result = await findBreedByName(formData.petBreed);
+        }
+
+        function checkGeneration() {
+            if (formData.petGeneration) {
+                return result = doParseGeneration(formData.petGeneration);
+            } else return false;
+        };
+
+        async function registerPet() {
+            const isTaken = await checkShowName();
+            const breedData = await checkBreed();
+            const parsedNumber = checkGeneration();
+
+            if (!isTaken && breedData) {
+                await knex('pets').insert({
+                    userId: sessionId,
+                    petName: formData.petName,
+                    showName: formData.showName,
+                    breedId: breedData.id,
+                    petGender: formData.petGender,
+                    petGeneration: parsedNumber,
+                    petAncestry: formData.petAncestry,
+                    petPedigree: formData.petPedigree,
+                    petModification: formData.petModification,
+                    originalOwner: formData.originalOwner,
+                    originalPrefix: formData.originalPrefix
+                });
+            } else return false;
+        };
+
+        if (sessionId) {
+            registerPet()
+        } else return false;
+    };
+
+    /* ================================== */
+    
+    async function doRegisterUser(formData) {
+        const isValid = validateForm(formData) && validatePassword(formData.password, formData.confirm);
+
+        async function generateData() {
+            return data = {
+                hashedPassword: await createHash(formData.password),
+                randomNumber: Math.floor(Math.random() * 900000) + 100000,
+                currentTime: getCurrentTime()
+            };
+        };
+
+        async function checkAvailability() {
+            return isAvailable = await findExistingUser(formData.email, formData.username);
+        };
+
+        async function checkCode() {
+            return user = await findUserByCode(formData.code);
+        };
+
+        async function registerUser() {
+            if (checkAvailability() && checkCode()) {
+                const gen = await generateData();
+
+                await knex('users').insert({
+                    userName: formData.username,
+                    userEmail: formData.email,
+                    userPassword: gen.hashedPassword,
+                    inviteCode: formData.code,
+                    friendCode: gen.randomNumber,
+                    createdAt: gen.currentTime
+                });
+
+                return true;
+            } else return false;
+        };
+
+        if (isValid) { return registerUser(); } else return false;
+    };
+
+    /* ================================== */
 
     async function doLoginUser(email, password) {
-        const userId = await findUserByEmail(email);
-    
-        if (userId) {
-            console.log("[DEBUG] loginUser() received a user ID from findUserByEmail().");
-            const match = await doBcryptCompare(userId, password);
-    
-            if (match) {
-                const currentTime = getCurrentTime();
+        const id = await findUserByEmail(email);
 
-                    await knex('users')
-                        .where({ 'id': userId })
-                        .update({
-                            visitedAt: currentTime
-                        });
+        async function updateDatabase() {
+            const currentTime = getCurrentTime();
 
-                console.log("[DEBUG] loginUser() received a confirmed match from bcryptCompare().");  
-                return userId;
-            } else {
-                console.log("[DEBUG] loginUser() received a response from bcryptCompare().");
-                return false;
-            };
-        } else {
-            console.log("[DEBUG] loginUser() failed: no user.");
-            return false;
+            await knex('users')
+                .where({ 'id': id })
+                .update({ visitedAt: currentTime });
+            
+            return id;
         };
+
+        async function verifyUser() {
+            const verification = await doBcryptCompare(id, password);
+            if (verification) { return updateDatabase(); } else return false;
+        };
+
+        if (id) { 
+            return verifyUser(); 
+        } else return false;
     };
 
-/* ========================================
+    /* ================================== */
 
-    UPDATE */
+    function validateNewPassword(password, confirm) {
+        let checks = [];
 
-    async function updateUser(session, data) {
-        const valid = await validateSession(session);
-        const user = await findUserById(valid.user);
-        
-        if (user) {
-            const isEmpty = Object.values(data).every((value) => {
-                return value === null;
-            }); 
-            
-            if (isEmpty) {
-                console.log("[DEBUG] updateUserProfile() received an empty form.")
-                return false;
-            } else {
-                const newPassword = (data.password || data.confirm);
-                
-                if (newPassword) {
-                    const isMatch = (data.password === data.confirm);
-    
-                    if (isMatch) {
-                        const isValid = validateNewPassword(data.password, data.confirm);
-    
-                        if (isValid) {
-                            const newHashedPassword = await createHash(data.password);
-                            const currentTime = getCurrentTime();
-    
-                            await knex('users')
-                                .where({ 'id': user })
-                                .update({
-                                    userPassword: newHashedPassword,
-                                    teamName: data.team,
-                                    teamPrefix: data.prefix,
-                                    teamDescription: data.description,
-                                    websiteName: data.website,
-                                    websiteUrl: data.url,
-                                    updatedAt: currentTime
-                                });
-    
-                            console.log("[DEBUG] updateUserProfile() updated all profile information.");
-                            return true;
-                        } else {
-                            console.log("[DEBUG] updateUserProfile() reported that new passwords aren't valid.")
-                            return false;
-                        }
-                    } else {
-                        console.log("[DEBUG] updateUserProfile() reported that new passwords don't match.")
-                        return false;
-                    };
-    
-                } else {
-                    const currentDate = getCurrentTime();
-    
-                    await knex('users')
-                        .where({ 'id': user })
-                        .update({
-                            teamName: data.team,
-                            teamPrefix: data.prefix,
-                            teamDescription: data.description,
-                            websiteName: data.website,
-                            websiteUrl: data.url,
-                            updatedAt: currentDate
-                        });
-                    
-                    console.log("[DEBUG] updateUserProfile() updated all profile information except for the password.");
-                    return true;
-                };
-    
-            };
-    
-        } else {
-            console.log("[DEBUG] updateUserProfile() found no user.")
-            return false;
+        function checkNull(pass, conf) {
+            if ((pass && conf) !== null) {
+                return true;
+            } else return false;
         };
+
+        function checkType(pass, conf) {
+            if (typeof (pass && conf) == 'string') {
+                checks.push(true);
+            } else checks.push(false);
+        };
+
+        function checkLength(pass, conf) {
+            if ((pass && conf).trim() != '') {
+                checks.push(true);
+            } else checks.push(false);
+        };
+
+        function checkMatch(pass, conf) {
+            if (pass === conf) {
+                checks.push(true);
+            } else checks.push(false);
+        };
+
+        function checkResults() {
+            if (checks.length > 0) {
+                return results = Object.values(checks).every((item) => {
+                    return item === true;
+                });
+            } else return false;
+        };
+
+        function runChecks(pass, conf) {
+            checkType(pass, conf);
+            checkLength(pass, conf);
+            checkMatch(pass, conf);
+
+            return result = checkResults();
+        };
+
+        function checkPassword(pass, conf) {
+            const checkResult = checkNull(pass, conf);
+
+            if (checkResult) {
+                return validationResult = runChecks(pass, conf);
+            } else return false;
+        };
+
+        return isValid = checkPassword(password, confirm);
+    };
+
+    /* ================================== */
+
+    async function doUpdateUser(sessionData, formData) {
+        const sessionId = await checkSession(sessionData)
+        const userId = await checkUser(sessionId);
+        const newPassword = checkForPassword(formData.password, formData.confirm);
+
+        async function checkSession(data) {
+            const session = await validateSession(data);
+
+            if (session) { 
+                return session.user; 
+            } else return false;
+        };
+
+        async function checkUser(data) {
+            const user = await findUserById(data);
+
+            if (user) { 
+                return user; 
+            } else return false;
+        };
+
+        function checkForPassword(password, confirm) {
+            return (password || confirm);
+        };
+
+        async function updateUser(data) {
+            const currentTime = getCurrentTime();
+            let validPassword = evaluatePassword();
+
+            function evaluatePassword() {
+                if (newPassword) {
+                    return isValid = validateNewPassword(data.password, data.confirm);
+                } else return false;
+            };
+
+            await knex('users')
+                .where({ 'id': userId })
+                .update({
+                    teamName: data.team,
+                    teamPrefix: data.prefix,
+                    websiteName: data.website,
+                    websiteUrl: data.url,
+                    updatedAt: currentTime
+                });
+
+            if (validPassword) {
+                const hash = await createHash(data.password);
+
+                await knex('users')
+                    .where({ 'id': userId })
+                    .update({
+                        userPassword: hash
+                    });
+            };
+        };
+
+        if (sessionId === userId) {
+            await updateUser(formData);
+        } else return false;
     };
 
 /* ================================== */
 
 module.exports = {
-    // Authenticate:
     createHash,
     createToken,
     requireSession,
-
-    // Find:
     findUserByEmail,
     findUserByUsername,
     findUserByCode,
     findExistingUser,
     findUserById,
-
-    // Validate:
+    findPetByShowName,
+    findBreedByName,
     validateForm,
     validatePassword,
     validateSession,
     validateNewPassword,
-
-    // Get:
     getUserPassword,
     getPublicProfile,
     getCurrentTime,
@@ -430,12 +552,11 @@ module.exports = {
     getUserCurrency,
     getUserRole,
     getSessionId,
-
-    // Do:
+    getAllPetSpecies,
     doLoginUser,
     doRegisterUser,
+    doUpdateUser,
     doBcryptCompare,
-
-    // Update:
-    updateUser
+    doRegisterPet,
+    doParseGeneration
 };

@@ -1,12 +1,7 @@
 <template>
     <main>
         <div class="content">
-            <section>
-                <h1 class="red">
-                    <i class="fa-solid fa-bullhorn blue"></i> News
-                </h1>
-                <div class="divider yellow"></div>
-            </section>
+            <AppHeader heading-text="Welcome" />
             <section>
                 <h2>A heading for news</h2>
                 <p>
@@ -22,3 +17,13 @@
         </div>
     </main>
 </template>
+
+<script>
+    import AppHeader from './app/AppHeader.vue';
+
+    export default {
+        components: {
+            AppHeader
+        }
+    };
+</script>

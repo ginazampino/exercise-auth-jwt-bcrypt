@@ -20,5 +20,5 @@
             'sidebar-footer': footer,
             'sidebar-controls': controls
         }
-    }
+    };
 </script>

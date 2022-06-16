@@ -6,6 +6,10 @@
     border-radius: rem(5px);
 }
 
+.scrollbar-white-dk {
+    @include theme-scrollbar($color-white-lt, $color-white-dk);
+}
+
 .scrollbar-blue {
     @include theme-scrollbar($color-blue, $color-blue-dk);
 }

@@ -12,7 +12,7 @@ const knex = Knex({
         database : 'petzhub'
     },
     pool: { min: 0, max: 5 }
-})
+});
 
 Model.knex(knex);
 

@@ -2,12 +2,12 @@
     <section>
         <nav>
             <ul>
-                <router-link tag="li" to="/home" aria-label="Manage my pets">
-                    <button class="pop blue">
+                <router-link tag="li" to="/pet/manager" aria-label="Manage my pets">
+                    <button class="pop blue" @submit.prevent="">
                         <i class="fas fa-paw" alt=""></i> My pets
                     </button>
                 </router-link>
-                <router-link tag="li" to="/home" aria-label="Manage my events">
+                <router-link tag="li" to="/" aria-label="Manage my events">
                     <button class="pop blue">
                         <i class="fas fa-star" alt=""></i> My events
                     </button>
@@ -38,24 +38,12 @@
         },
 
         async mounted() {
-            const session = await axios.get('/api/get/cookie')
-                .then((result) => {
-                    return result;
-                }).catch((error) => {
-                    throw error;
-                });
-            
+            const session = await axios.get('/api/get/cookie').then((result) => { return result; }).catch((error) => { throw error; });
             this.sessionId = session.data;
             
-            const currency = await axios.get(`/api/get/user/${this.sessionId}/currency`)
-                .then((result) => { 
-                    return result; 
-                }).catch((error) => {
-                    throw error;
-                });
-
+            const currency = await axios.get(`/api/get/user/${this.sessionId}/currency`).then((result) => { return result; }).catch((error) => { throw error; });
             this.tickets = currency.data.tickets;
             this.tokens = currency.data.tokens;
-      }
+        }
     };
 </script>

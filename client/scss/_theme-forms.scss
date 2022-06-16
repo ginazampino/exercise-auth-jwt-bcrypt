@@ -4,7 +4,7 @@
     opacity: 1;
 }
 
-label {
+label, span.label {
     display: block;
     font-family: $family-body;
     font-size: $size-md;
@@ -12,6 +12,11 @@ label {
     margin-bottom: rem(6px);
     padding-left: rem(4px);
     width: 100%;
+
+    i {
+        font-size: $size-sm;
+        margin-left: rem(2px);
+    }
 }
 
 input, textarea {
@@ -28,9 +33,9 @@ input, textarea {
     }
 }
 
-input, textarea {
+input, textarea, .dropdown > .value {
     &.white {
-        background-color: rgba($color-white-dk, .15);
+        background-color: $color-white-lt;
         border: rem(1px) solid $color-white-dk;
 		border-bottom: rem(6px) solid $color-white-dk;
     }
@@ -41,10 +46,79 @@ input, textarea {
     }
 }
 
-form.editor {
-    input, textarea {
-        transform: none;
+.dropdown {
+    position: relative;
 
+
+    > .value {
+        @include flex(center, center, row);
+        border-radius: rem(8px);
+        display: block;
+        cursor: pointer;
+        font-family: $family-body;
+        font-size: $size-md;
+        min-height: rem(43px);
+        line-height: $size-md;
+        padding: rem(9px) rem(18px) rem(1px) rem(18px);
+        position: relative;
+        width: 100%;
+        z-index: 0;
+
+        > span {
+            pointer-events: none;
+        }
+
+        &:after {
+            color: $color-white-dk;
+            content: "\f0d7";
+            font-family: "Font Awesome 6 Pro";
+            font-weight: 900;
+            position: absolute;
+            right: rem(10px);
+            transition: .05s ease-in-out;
+        }
+    }
+
+    > .options {
+        background-color: $color-white-lt;
+        border: rem(1px) solid $color-white-dk;
+        border-radius: rem(0px) rem(0px) rem(8px) rem(8px)  ;
+		border-bottom: rem(6px) solid $color-white-dk;
+        top: rem(80px);
+        cursor: pointer;
+        max-height: rem(140px);
+        left: rem(10px);
+        overflow: auto;
+        position: absolute;
+        right: rem(10px);
+        z-index: 999;
+
+        &.hidden {
+            display: none;
+        }
+
+        li {
+            padding: rem(4px) rem(18px);
+            transition: .05s ease-in-out;
+
+            &:hover {
+                background-color: $color-white;
+            }
+        }
+    }
+}
+
+form.editor {
+    h2 i {
+        cursor: pointer;
+        font-size: $size-md;
+        margin-left: rem(4px);
+    }
+    
+    input, textarea, .dropdown > .value {
+        transform: none;
+        transition: .05s ease-in-out;
+        
         &:not(:disabled) {
             &:hover, &:active, &:focus {
                 background-color: $color-white;
@@ -62,6 +136,14 @@ form.editor {
             }
         }
 
+        &.disabled {
+            background-color: rgba($color-red, .15);
+            border-color: $color-red;
+    
+            &::placeholder {
+                color: $color-red-dk;
+            }
+        }
     }
 
     > section {

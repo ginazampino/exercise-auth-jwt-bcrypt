@@ -76,7 +76,8 @@ CREATE TABLE petBreeds (
 INSERT INTO petBreeds (speciesId, breedName)
 VALUES  (1, 'Bulldog'),
         (1, 'Chihuahua'),
-        (1, 'Dalmation'),
+        (1, 'Dachshund'),
+        (1, 'Dalmatian'),
         (1, 'German Shepherd'),
         (1, 'Golden Retriever'),
         (1, 'Great Dane'),
@@ -104,8 +105,7 @@ VALUES  (1, 'Bulldog'),
         (2, 'Siamese'),
         (2, 'Tabby'),
         (3, 'Bunny'),
-        (3, 'Pig'),
-        (3, 'Other');
+        (3, 'Pig');
 
 ALTER TABLE petBreeds
 ADD FOREIGN KEY (speciesId) REFERENCES petSpecies(id);
@@ -118,33 +118,25 @@ CREATE TABLE pets (
     breedId             INT NOT NULL, -- petBreeds(id)
 
     petGender           ENUM('Male', 'Female') NOT NULL,
-    petVersion          ENUM('3', '4', '5') NULL,
+    petVersion          ENUM('Petz 3', 'Petz 4', 'Petz 5') NOT NULL,
     petGeneration       INT NULL,
     petDescription      TEXT NULL,
-    
-    isFavorite          BOOLEAN DEFAULT 0 NOT NULL,
-    isActive            BOOLEAN DEFAULT 1 NOT NULL,
-    isRival             BOOLEAN DEFAULT 0 NOT NULL,
 
-    isPurebred          BOOLEAN NULL,
-    isNoninbred         BOOLEAN NULL,
-    isUnmodified        BOOLEAN NULL,
+    petAncestry         ENUM('Inbred', 'Noninbred') NOT NULL,
+    petPedigree         ENUM('Mixed Breed', 'Purebred') NOT NULL,
+    petModification     ENUM('Modified', 'Unmodified') NOT NULL,
 
     originalOwner       VARCHAR(255) NULL,
     originalPrefix      VARCHAR(255) NULL,
 
-    pcPoints            INT NULL,
-    dgPoints            INT NULL,
-    pkcNumber           VARCHAR(25) NULL,
-
     beautyPoints        INT DEFAULT 0 NOT NULL,
     healthPoints        INT DEFAULT 0 NOT NULL,
     lovePoints          INT DEFAULT 0 NOT NULL,
-    skillPoints         INT DEFAULT 0 NOT NULL,
-
-    createdAt           DATE NOT NULL,
-    updatedAt           DATE NULL
+    skillPoints         INT DEFAULT 0 NOT NULL
 );
+
+INSERT INTO pets (userId, petName, showName, originalOwner, originalPrefix, petVersion, breedId, petAncestry, petPedigree, petModification)
+VALUES (1, 'Paws', 'Another Time', 'Dia', 'DPP', 'Petz 4', 3, 'Inbred', 'Mixed Breed', 'Unmodified');
 
 ALTER TABLE pets
 ADD FOREIGN KEY (userId) REFERENCES users(id);
@@ -158,7 +150,7 @@ CREATE TABLE eventCategories (
 );
 
 INSERT INTO eventCategories(categoryName)
-VALUES  ('None'),       -- Profile
+VALUES  ('None'),       -- Candid photo
         ('Portrait'),   -- Dali pose
         ('Profile');    -- Dane pose
 

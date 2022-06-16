@@ -48,6 +48,11 @@ export default new Router({
                     beforeEnter: guardBehindSession
                 },
                 {
+                    path: '/user',
+                    redirect: '/user/edit',
+                    beforeEnter: guardBehindSession
+                },
+                {
                     path: '/user/edit',
                     component: require('./vue/private/app/UserEditor.vue').default,
                     beforeEnter: guardBehindSession
@@ -56,11 +61,36 @@ export default new Router({
                     path: '/user/:id',
                     component: require('./vue/private/app/UserProfile.vue').default,
                     beforeEnter: guardBehindSession
+                },
+                {
+                    path: '/pet',
+                    redirect: '/pet/manager',
+                    beforeEnter: guardBehindSession
+                },
+                {
+                    path: '/pet/register',
+                    component: require('./vue/private/app/PetRegister.vue').default,
+                    beforeEnter: guardBehindSession
+                },
+                {
+                    path: '/pet/manager',
+                    component: require('./vue/private/app/PetManager.vue').default,
+                    beforeEnter: guardBehindSession
+                },
+                {
+                    path: '/pet/:id',
+                    redirect: '/',
+                    beforeEnter: guardBehindSession
+                },
+                {
+                    path: '/pet/:id/edit',
+                    redirect: '/',
+                    beforeEnter: guardBehindSession
                 }
             ]
         },
         {
-            path: '*',
+            path: '*', // 404 catch-all.
             component: require('./vue/Error404.vue').default
         }
     ]
