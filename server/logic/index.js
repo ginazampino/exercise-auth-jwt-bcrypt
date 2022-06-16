@@ -339,7 +339,7 @@ const { User, Species, Breed, Pet } = require('../database/models');
         };
 
         if (sessionId) {
-            registerPet()
+            registerPet();
         } else return false;
     };
 
