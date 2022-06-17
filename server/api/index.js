@@ -10,7 +10,7 @@ const {
     getUserCurrency,
     getUserRole,
     getSessionId,
-    getPetSpecies,
+    getUserPets,
     doLoginUser,
     doRegisterUser,
     doUpdateUser,
@@ -157,6 +157,26 @@ require('dotenv').config();
             const array = await getPetSpecies();
             res.json(array);
         } else {
+            res.status(400).send('Server could not find an active session.');
+        };
+    });
+
+/* ========================================
+
+    Get all of a user's pets. */
+
+    router.get('/get/user/:id/pets', requireSession, async (req, res) => {
+        const session = await validateSession(req.cookies.token);
+        const sessionId = session.user;
+
+        if (sessionId) {
+            return pets = await getUserPets(req.params.id)
+                .then((result) => {
+                    res.json(result);
+                }).catch((error) => {
+                    throw error;
+                });
+        } else { 
             res.status(400).send('Server could not find an active session.');
         };
     });

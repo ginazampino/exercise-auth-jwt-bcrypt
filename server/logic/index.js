@@ -197,6 +197,50 @@ const { User, Species, Breed, Pet } = require('../database/models');
             skillPotions: inventory.skillPotions,
         };
     };
+
+    /* ================================== */
+
+    async function getUserPets(id) {
+        const pets = await Pet.query().where('userId', id);
+        const breeds = await Breed.query();
+        const species = await Species.query();
+
+        let mappedPets = [];
+
+        function mapPetsToBreeds() {
+            function mapBreed(pet) {
+                const petData = pet;
+                const petBreedId = petData.breedId;
+                const breedData = breeds.find((breed) => { return breed.id == petBreedId; });
+                const speciesData = species.find((species) => { return species.id == breedData.speciesId; });
+                const breedName = breedData.breedName;
+                const speciesName = speciesData.speciesName;
+                let mappedData = petData;
+
+                Object.assign(mappedData, { breedId: breedName, speciesId: speciesName });
+
+                delete Object.assign(mappedData, { 
+                    ['breedName']: mappedData['breedId']
+                })['breedId'];
+
+                delete Object.assign(mappedData, { 
+                    ['speciesName']: mappedData['speciesId']
+                })['speciesId'];
+
+                mappedPets.push(mappedData);
+            };
+
+            pets.forEach((pet) => {
+                mapBreed(pet);
+            });
+
+            return mappedPets;
+        };
+
+        if (pets.length >= 1) {
+           return mapPetsToBreeds();
+        } else return false;
+    };
     
 /* ========================================
 
@@ -247,6 +291,16 @@ const { User, Species, Breed, Pet } = require('../database/models');
 
         if (pet) { 
             return pet.id; 
+        } else return false;
+    };
+
+    /* ================================== */
+
+    async function findBreedById(id) {
+        const breedName = await Breed.query().where('id', id).first();
+
+        if (breedName) {
+            return breedName;
         } else return false;
     };
 
@@ -381,7 +435,9 @@ const { User, Species, Breed, Pet } = require('../database/models');
             } else return false;
         };
 
-        if (isValid) { return registerUser(); } else return false;
+        if (isValid) { 
+            return registerUser(); 
+        } else return false;
     };
 
     /* ================================== */
@@ -541,6 +597,7 @@ module.exports = {
     findUserById,
     findPetByShowName,
     findBreedByName,
+    findBreedById,
     validateForm,
     validatePassword,
     validateSession,
@@ -553,6 +610,7 @@ module.exports = {
     getUserRole,
     getSessionId,
     getAllPetSpecies,
+    getUserPets,
     doLoginUser,
     doRegisterUser,
     doUpdateUser,

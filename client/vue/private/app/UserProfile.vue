@@ -2,6 +2,7 @@
     <main>
         <div class="content">
             <AppHeader :heading-text="headerText" />
+            <AppPetTable></AppPetTable>
         </div>
     </main>
 </template>
@@ -9,10 +10,12 @@
 <script>
     import axios from 'axios';
     import AppHeader from './AppHeader.vue';
+    import AppPetTable from './AppPetTable.vue';
 
     export default {
         components: {
-            AppHeader
+            AppHeader,
+            AppPetTable
         },
 
         data() {
